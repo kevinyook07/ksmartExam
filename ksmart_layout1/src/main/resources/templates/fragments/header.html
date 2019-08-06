@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+
+
+	<!-- Begin Header -->
+	<div id="header" th:fragment="headerFragment">
+
+		<header class="bg-primary text-white">
+		  <div class="container text-center">
+		    <h1>smart one 아파트·주택 관리 시스템에 오신걸 환영합니다.</h1><br>
+		    <p class="lead">아파트·주택 관리 소프트웨어 분야 1위!</p>
+		  </div>
+		</header>
+
+	   	
+<!-- 	head.html<br>
+		 상단 메뉴<br>
+		 <a href="/addMember"
+		 th:if="${session.SID == null || session.SLEVEL eq '관리자'}">01회원가입</a>
+	 	 <a href="/memberList">02회원전체검색</a>	 
+	 	 <a href="/addGoods"
+	 	 	th:if="${session.SID ne null and session.SLEVEL ne '구매자'}">03상품등록</a>	 
+	 	 <a href="/goodsList">04상품전체검색</a>	 	
+	 	 
+	 	 당신의 아이디 <%= S_ID %> <%= S_NAME %> 님 <%= S_LEVEL %> 권한	 
+	 	 <a th:href="${/login}" th:if="${session.SID eq null}" style="text-align: right;">로그인</a>	받은 객체를 활용할 때는 '$'표시 
+	 	 
+	 	 
+	 	 <th:block th:unless="${session.SID eq null}">	 	 	
+	 	 	<label>당신의 아이디 [[${session.SID}]] [[${session.SNAME}]] 님 [[${session.SLEVEL}]] 권한</label>
+	 	 	<a th:href="@{/logout}" style="text-align: right;">로그아웃</a><br>	 	 	
+	 	 </th:block> -->
+	 	 
+		 
+	</div>
+	
+	<!-- End Header -->
+</html>

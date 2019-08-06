@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<!-- memberList -->
+	<div id="memberList" th:fragment="memberListFragment">
+		<th:block layout:fragment="customTitle">
+		<title>회원목록</title>
+	</th:block>
+	
+	<th:block layout:fragment="customContents">
+		<!-- 검색 -->
+		<form action="/memberList" method="post">
+			<select name="sk">
+				<option value="m_id">회원아이디</option>
+				<option value="m_name">회원명</option>
+			</select>
+			<input type="text" name="sv">
+			<button type="submit">검색</button>	
+		</form>
+	
+		<table border="1">
+			<tr>
+				<td>아이디</td>
+				<td>비밀번호</td>
+				<td>권한</td>
+				<td>이름</td>
+				<td>이메일</td>
+				<td>수정</td>
+				<td>삭제</td>
+			</tr>
+			<tr th:each="l : ${memberList}">
+				<td th:text="${l.memberId}"></td>
+				<td th:text="${l.memberPw}"></td>
+				<td th:text="${l.memberLevel}"></td>
+				<td th:text="${l.memberName}"></td>
+				<td th:text="${l.memberEmail}"></td>
+				<td>
+					<!-- /modifyMember?memberId="값" -->
+					<a th:href="@{/modifyMember(memberId=${l.memberId})}">수정</a>
+				</td>
+				<td>
+					<a th:href="@{/delMember(memberId=${l.memberId})}">삭제</a>
+				</td>			
+			</tr>
+		</table>
+	</th:block>
+		
+	
+	
+	</div>
+
+</html>

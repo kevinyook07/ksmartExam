@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title>상품수정화면</title>
+</th:block>
+
+<th:block layout:fragment="customContents">
+<form action="/modifyGoods" method="post">
+
+		<!-- 상품코드가 노출되기 싫으면 type="hidden"으로 놓으면 된다. -->
+		<input type="hidden" name="goodsCode" th:value="${goods.goodsCode}" readonly="readonly"> 
+		
+
+	
+	<table border="1">
+		<!-- 상품 코드가 노출되는게 싫으면 위에 처럼 type="hidden"으로 놓고 table밖으로 놓으면 화면 form이 틀어지는 일은 없다.
+		<tr>
+			<td>상품코드</td>
+			<td>
+				<input type="text" name="goodsCode" th:value="${goods.goodsCode}" readonly="readonly">
+			</td>
+		</tr> -->	
+
+				
+	
+		<tr>
+			<td>member아이디</td>
+			<td>
+				<input type="text" name="memberId" th:value="${goods.memberId}" readonly="readonly">
+			</td>
+		</tr>
+		<tr>	
+			<td>상품명</td>
+			<td>
+				<input type="text" name="goodsName" th:value="${goods.goodsName}">
+			</td>
+		</tr>
+		<tr>
+			<td>상품카테고리</td>
+			<td>
+				<input type="text" name="goodsCate" th:value="${goods.goodsCate}">
+			</td>
+		</tr>
+		<tr>	
+			<td>상품가격</td>
+			<td>
+				<input type="text" name="goodsPrice" th:value="${goods.goodsPrice}">
+			</td>
+		</tr>	
+		<tr>			
+			<td>상품색상</td>
+			<td>
+				<input type="text" name="goodsColor" th:value="${goods.goodsColor}">
+			</td>
+		</tr>
+		<tr>			
+			<td>상품크기</td>
+			<td>
+				<input type="text" name="goodsSize" th:value="${goods.goodsSize}">
+			</td>
+		</tr>
+		<tr>			
+			<td>상품상세설명</td>
+			<td>
+				<input type="text" name="goodsDesc" th:value="${goods.goodsDesc}">
+			</td>
+		</tr>					
+			<tr style="text-align: center;">
+				<td colspan="2">
+					<button type="submit">회원수정완료</button>
+				</td>
+			</tr>		
+	</table>
+	</form>
+</th:block>
+
+</html>

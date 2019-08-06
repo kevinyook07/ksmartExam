@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="kr.or.ksmart.ksmart_layout1.mapper.GoodsMapper">
+ 
+	 <select id="getGoodsList" resultType="kr.or.ksmart.ksmart_layout1.vo.Goods">
+		 SELECT 
+			 g.g_code  AS goodsCode
+			,g.m_id    AS memberId
+			,g.g_name  AS goodsName
+			,g.g_cate  AS goodsCate
+			,g.g_price AS goodsPrice
+			,g.g_color AS goodsColor
+			,g.g_size  AS goodsSize
+			,g.g_date  AS goodsDate
+			,g.g_desc  AS goodsDesc
+			,m.m_pw    AS memberPw	
+			,m.m_level AS memberLevel	
+			,m.m_name  AS memberName	
+			,m.m_email AS memberEmail			
+		 FROM tb_goods g INNER JOIN tb_member m ON g.m_id = m.m_id
+	 </select>
+	 
+	 <select id="getGoodsSearchList" parameterType="String" resultType="kr.or.ksmart.ksmart_layout1.vo.Goods">
+		SELECT 
+			 g.g_code  AS goodsCode
+			,g.m_id    AS memberId
+			,g.g_name  AS goodsName
+			,g.g_cate  AS goodsCate
+			,g.g_price AS goodsPrice
+			,g.g_color AS goodsColor
+			,g.g_size  AS goodsSize
+			,g.g_date  AS goodsDate
+			,g.g_desc  AS goodsDesc
+			,m.m_pw    AS memberPw	
+			,m.m_level AS memberLevel	
+			,m.m_name  AS memberName	
+			,m.m_email AS memberEmail			
+		 FROM tb_goods g INNER JOIN tb_member m ON g.m_id = m.m_id
+		 <trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="sv != null and sv neq ''.toString()">
+				and ${sk} like concat('%',#{sv},'%')
+			</if>
+			 <if test="firstMoney neq null and firstMoney neq ''.toString()"><!-- neq = not equal -->
+				and g.g_price >= cast(#{firstMoney} as DECIMAL)
+			 </if>
+			 <if test="lastMoney neq null and lastMoney neq ''.toString()">
+			 	and g.g_price <![CDATA[<=]]> cast(#{lastMoney} as DECIMAL)
+			 </if>
+		 </trim>	 
+	 </select>
+	 
+	 <select id="getGoodsCodeMax" resultType="int">
+	 	select max(CAST(substring(g_code,7) AS DECIMAL)) as maxcol from tb_goods
+	 </select>
+	 
+	 <insert id="addGoods" parameterType="kr.or.ksmart.ksmart_layout1.vo.Goods">
+	 	INSERT INTO tb_goods
+			(g_code, m_id, g_name, g_cate, g_price, g_color, g_size, g_date, g_desc)
+		VALUES (
+			#{goodsCode}
+			,#{memberId}
+			,#{goodsName}
+			,#{goodsCate}
+			,#{goodsPrice}
+			,#{goodsColor}
+			,#{goodsSize}
+			,curdate()
+			,#{goodsDesc})
+	 </insert>
+	 
+	 <insert id="addGoods1" parameterType="kr.or.ksmart.ksmart_layout1.vo.Goods">
+		 <selectKey keyProperty="goodsCode" resultType="String" order="BEFORE">
+		 	select 
+		 	
+		 	concat('goods_', MAX(CAST(substring(g_code,7) AS DECIMAL)+1)) as gCode
+		 	 	
+		 	from tb_goods
+		 </selectKey>
+	 	INSERT INTO tb_goods
+			(g_code, m_id, g_name, g_cate, g_price, g_color, g_size, g_date, g_desc)
+		VALUES (
+			#{goodsCode}
+			,#{memberId}
+			,#{goodsName}
+			,#{goodsCate}
+			,#{goodsPrice}
+			,#{goodsColor}
+			,#{goodsSize}
+			,curdate()
+			,#{goodsDesc})
+	 </insert>
+	 
+	 <select id="getGoodsByCode" parameterType="String" resultType="kr.or.ksmart.ksmart_layout1.vo.Goods">
+	 	SELECT 
+			 g.g_code  AS goodsCode
+			,g.m_id    AS memberId
+			,g.g_name  AS goodsName
+			,g.g_cate  AS goodsCate
+			,g.g_price AS goodsPrice
+			,g.g_color AS goodsColor
+			,g.g_size  AS goodsSize
+			,g.g_date  AS goodsDate
+			,g.g_desc  AS goodsDesc
+			,m.m_pw    AS memberPw	
+			,m.m_level AS memberLevel	
+			,m.m_name  AS memberName	
+			,m.m_email AS memberEmail			
+		 FROM tb_goods g INNER JOIN tb_member m ON g.m_id = m.m_id
+		 WHERE g_code=#{goodsCode}
+	 </select>
+	 
+	 <update id="modifyGoods" parameterType="kr.or.ksmart.ksmart_layout1.vo.Goods">
+	 	UPDATE tb_goods
+			
+		<trim prefix="SET" prefixOverrides=" , ">
+			<if test="goodsCode != null and goodsCode neq ''.toString()">
+				g_code=#{goodsCode},
+			</if>
+			<if test="memberId != null and memberId neq ''.toString()">
+				m_id=#{memberId},
+			</if>
+			<if test="goodsName != null and goodsName neq ''.toString()">
+				g_name=#{goodsName},
+			</if>
+			<if test="goodsCate != null and goodsCate neq ''.toString()">
+				g_cate=#{goodsCate},
+			</if>
+			<if test="goodsPrice != null and goodsPrice neq ''.toString()">
+				g_price=#{goodsPrice},
+			</if>			
+			<if test="goodsColor != null and goodsColor neq ''.toString()">
+				g_color=#{goodsColor},
+			</if>
+			<if test="goodsSize != null and goodsSize neq ''.toString()">
+				g_size=#{goodsSize},
+			</if>			
+			<if test="goodsDesc != null and goodsDesc neq ''.toString()">
+				g_desc=#{goodsDesc}
+			</if>			
+		where g_code=#{goodsCode}
+		</trim>
+
+	 </update>
+	 
+	 <delete id="delGoods" parameterType="String">
+	 	DELETE g
+		FROM tb_goods g 
+		inner join tb_member m
+		on g.m_id=m.m_id
+		WHERE g_code=#{goodsCode}
+		
+<!-- 		DELETE g
+		FROM tb_goods g 
+		inner join tb_member m
+
+		WHERE 
+			g.g_code='goods_10'
+		AND m.m_id='3'
+		AND m.m_pw='3' -->
+				
+		
+	 </delete>
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+ 
+ 
+ 
+ </mapper>
